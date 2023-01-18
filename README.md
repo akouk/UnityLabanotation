@@ -1,8 +1,8 @@
 # UnityLabanotation
 
 This is a Unity script that utilizes Labanotation to animate body parts in a 3D environment. It reads a JSON file containing Labanotation data, parses it, and uses it to rotate various body parts in the scene. The body parts that can be animated are the left and right arm and leg.
-Features
 
+Features:
 - Parses a JSON file containing Labanotation data
 - Uses the data to animate body parts in a 3D environment
 - Utilizes IEnumerator for smooth animation
