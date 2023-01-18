@@ -36,7 +36,7 @@ public class Labanotation : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //prepei na arxikopoiw tis listes prin kanei parse to Json k oxi prin!! simantiko ..
+        // Initialize lists before parsing JSON file
         movementsList = new List<MovementClass>();
         chosenMovementsList = new List<MovementClass>();
 
@@ -44,7 +44,8 @@ public class Labanotation : MonoBehaviour
 
         bodysPartAnchorPositionDefinition();
     }
-
+    
+    // Define anchor positions for body parts
     private void bodysPartAnchorPositionDefinition()
     {
         rightLegAnchorPosition = rightLeg.transform.rotation.eulerAngles;
@@ -52,21 +53,19 @@ public class Labanotation : MonoBehaviour
         rightArmAnchorPosition = rightArm.transform.rotation.eulerAngles;
         leftArmAnchorPosition = leftArm.transform.rotation.eulerAngles;
     }
-
+    
+    // Parse JSON file containing Labanotation data
     private void parseJsonFile()
     {
         string jsonString = File.ReadAllText("Assets/Labans/laban_sample.json");
         JSONNode movement = JSON.Parse(jsonString)["generated_motion_sample"]["Movement"];
-        // m autin tin grammi pairnw sigkekrimeno periexomeno pou vrisketai sto sigkekrimeno index
-        /*        var v = JSON.Parse(jsonString)["generated_motion_sample"]["Movement"]["Starting Position"][0]["Direction"];
-                Debug.Log(v);*/
 
-        //prepei na kanw clear tis listes etsi wste se neo json arxeio na min krataei ta proigoumena
+       // Clear lists before parsing new JSON file
         movementsList.Clear();
         chosenMovementsList.Clear();
 
 
-        // a position is a collection for body part positions
+        // Iterate through positions in movement
         foreach (JSONNode position in movement)
         {
             foreach (JSONNode bodyPartPosition in position)
@@ -82,17 +81,11 @@ public class Labanotation : MonoBehaviour
                 movementsList.Add(movements);
             }
 
-            //enallaktikos tropos me linq gia na kanw debug log ta items se mia lsita
-            //leftLegMovementsList.ForEach((item) => Debug.Log(item.ToString));
         }
 
-        //psaxnw mesa stin lista ola ta items pou perilamvanoun to string left leg
-        //foreach (MovementClass item in listOfMovements.FindAll(match => match.BodyPart == "Left Leg"))    
-        //{
-        //}
     }
 
-
+    // Coroutine for moving body parts
     IEnumerator moveBodysPart(Transform bodyPart, Vector3 bodysPartNewPosition, float animationTime, float steps)
     {
         if (animationTime == 0f)
@@ -112,7 +105,7 @@ public class Labanotation : MonoBehaviour
                 bodyPart.transform.rotation = Quaternion.Lerp(bodysPartPrevPosition, Quaternion.Euler(bodysPartNewPosition), time);
 
                 time += deltaStep;
-
+                // Wait for step time
                 yield return new WaitForSeconds(waitValue);
             }
         }
@@ -136,12 +129,7 @@ public class Labanotation : MonoBehaviour
             StartCoroutine(moveBodysPart(bodyPart, bodysPartNewPosition, animationTime, completionSteps));
         }
 
-        //Debug.Log(chosenMovementsList.Count());
 
-        //for (int i = 0; i < chosenMovementsList.Count(); i++)
-        //{
-        //    Debug.Log(i);
-        //}
     }
 
     private Vector3 bodysPartNewPositionCalculation(Transform bodyPart, Vector3 bodyPartAnchorPosition, Vector3 movementsDirection)
