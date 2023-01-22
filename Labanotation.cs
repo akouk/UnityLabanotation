@@ -15,7 +15,6 @@ public class Labanotation : MonoBehaviour
     [SerializeField] private Transform rightLeg;
 
     [Header("Rotation parameters")]
-    //[SerializeField] private float moveDuration;
     [SerializeField] private float degrees;
     [SerializeField] private float completionSteps;
 
@@ -32,8 +31,6 @@ public class Labanotation : MonoBehaviour
     private Vector3 rightArmAnchorPosition;
     private Vector3 leftArmAnchorPosition;
 
-
-    // Start is called before the first frame update
     void Start()
     {
         // Initialize lists before parsing JSON file
@@ -112,7 +109,6 @@ public class Labanotation : MonoBehaviour
     }
 
 
-    // Update is called once per frame
     void Update()
     {
         List<MovementClass> chosenMovementsList = checkIfEachMovementsStartTimeEqualsToCounterTimeAndAddMovementToNewList();
@@ -148,7 +144,6 @@ public class Labanotation : MonoBehaviour
 
     private List<MovementClass> checkIfEachMovementsStartTimeEqualsToCounterTimeAndAddMovementToNewList()
     {
-        //time.deltaTime einai o pragmatikos xronos gi auto ton prosthetw sto counter
         counterTime += Time.deltaTime;
 
         chosenMovementsList = new List<MovementClass>();
@@ -158,19 +153,17 @@ public class Labanotation : MonoBehaviour
             float startTime;
             foreach (var movement in movementsList)
             {
-                //print(movement.Start);
                 startTime = movement.Start;
-                //print((startTime == totalCounterTime) + " "+ startTime +" "+ totalCounterTime);
+
                 if (startTime == totalCounterTime)
                 {
                     chosenMovementsList.Add(movement);
-                    //movementsList.Remove(movement);
+
                 }
                 else
                 {
                     if (startTime > totalCounterTime)
                     {
-                        //continue;
                         break;
                     }
                 }
@@ -221,7 +214,6 @@ public class Labanotation : MonoBehaviour
         switch (movement.Direction)
         {
             case "Place":
-                // needs to be changed
                 direction = new Vector3(0, 0, 0);
                 break;
             case "Forward":
